@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Una dinámica para recordar que la conexión más importante es con Dios.">
+  <title>La conexión que necesitas es Dios</title>
+  <style>
+    :root { --bg:#090909; --panel:#171719; --panel2:#101012; --gold:#f4ad24; --cream:#f6f2e9; --muted:#b9b5ae; --line:#303034; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--cream); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.6; }
+    a { color:inherit; }
+    .wrap { width:min(1080px, calc(100% - 32px)); margin:auto; }
+    header { padding:18px 0; border-bottom:1px solid #242426; }
+    .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    .brand { font-weight:850; letter-spacing:.08em; font-size:.85rem; }
+    .brand span { color:var(--gold); }
+    .nav a { text-decoration:none; color:var(--muted); font-size:.9rem; }
+    .hero { display:grid; grid-template-columns:1fr 1fr; gap:38px; align-items:center; padding:54px 0 66px; }
+    .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:.18em; font-weight:800; font-size:.76rem; }
+    h1 { font-size:clamp(2.6rem,6vw,5.4rem); line-height:.99; letter-spacing:-.055em; margin:14px 0 20px; text-transform:uppercase; }
+    h1 span { color:var(--gold); display:block; }
+    .lead { color:#d1cdc5; font-size:1.08rem; max-width:520px; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; }
+    .btn { display:inline-flex; justify-content:center; align-items:center; border:1px solid var(--line); border-radius:999px; padding:11px 18px; font-weight:750; text-decoration:none; cursor:pointer; background:#202023; color:var(--cream); }
+    .btn.primary { background:var(--gold); border-color:var(--gold); color:#17120a; }
+    .hero-img { display:block; width:100%; max-width:440px; height:auto; max-height:none; object-fit:contain; object-position:center; justify-self:center; border-radius:18px; border:1px solid #38383b; box-shadow:0 22px 70px #0009; }
+    section { padding:54px 0; border-top:1px solid #242426; }
+    .section-head { max-width:680px; margin-bottom:26px; }
+    h2 { font-size:clamp(1.8rem,4vw,2.7rem); line-height:1.1; margin:8px 0 12px; letter-spacing:-.035em; }
+    .muted { color:var(--muted); }
+    .verse-card { background:linear-gradient(145deg,#1b1b1e,#111113); border:1px solid #303034; border-radius:22px; padding:clamp(22px,4vw,34px); }
+    .verse-top { display:flex; justify-content:space-between; align-items:center; gap:10px; color:var(--gold); font-size:.8rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .verse-card blockquote { margin:20px 0 12px; font-size:clamp(1.35rem,3vw,2rem); font-weight:750; line-height:1.3; }
+    .verse-ref { color:var(--gold); font-weight:800; }
+    .reflection { margin-top:18px; background:#0b0b0d; padding:17px 19px; border-radius:14px; color:#c9c5bd; }
+    .verse-controls { display:flex; justify-content:space-between; gap:12px; margin-top:20px; flex-wrap:wrap; }
+    .dots { color:var(--muted); align-self:center; font-size:.9rem; }
+    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .mini { padding:22px; background:var(--panel); border:1px solid var(--line); border-radius:18px; }
+    .mini h3 { margin:0 0 8px; color:var(--gold); }
+    .mini p { margin:0; color:#d0ccc4; }
+    .form-layout { display:grid; grid-template-columns:.9fr 1.1fr; gap:24px; align-items:start; }
+    .form-card { background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:24px; }
+    label { display:block; font-weight:750; margin:14px 0 7px; }
+    input, textarea { width:100%; border:1px solid #3a3a3f; border-radius:13px; padding:14px 15px; background:#09090b; color:var(--cream); font:inherit; outline:none; }
+    input:focus, textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px #f4ad2420; }
+    textarea { min-height:140px; resize:vertical; }
+    .small { font-size:.84rem; color:var(--muted); }
+    .result { display:none; margin-top:18px; padding:18px; border-radius:16px; background:#0b0b0d; border:1px solid #3a3427; }
+    .result.show { display:block; }
+    .result h3 { color:var(--gold); margin:0 0 8px; }
+    .result p { white-space:pre-wrap; }
+    .qr-box { display:flex; gap:24px; align-items:center; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:22px; }
+    #qr { width:180px; height:180px; background:white; padding:8px; border-radius:12px; display:none; }
+    .qr-placeholder { width:180px; height:180px; display:grid; place-items:center; border:1px dashed #555; border-radius:12px; color:var(--muted); text-align:center; padding:15px; }
+    .qr-tools { flex:1; min-width:230px; }
+    footer { border-top:1px solid #242426; padding:28px 0 40px; color:var(--muted); font-size:.88rem; text-align:center; }
+    @media (max-width:760px) {
+      .wrap { width:min(100% - 24px, 560px); }
+      .hero,.form-layout { grid-template-columns:1fr; }
+      .hero { padding:18px 0 42px; gap:22px; }
+      .hero-img { order:0; width:100%; max-width:430px; height:auto; max-height:none; object-fit:contain; border-radius:14px; }
+      .hero-copy { order:1; }
+      h1 { font-size:clamp(2.35rem, 11vw, 3.8rem); }
+      .lead { font-size:1rem; }
+      section { padding:40px 0; }
+      .grid { grid-template-columns:1fr; }
+      .nav a { font-size:.8rem; }
+      .btn { min-height:46px; }
+      input, textarea { font-size:16px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand">CONEXIÓN <span>ETERNA</span></div>
+    <a href="#oracion">Comparte una oración ↓</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Una dinámica para el corazón</div>
+      <h1>La única conexión que necesitas <span>es Dios.</span></h1>
+      <p class="lead">En medio de tantas distracciones, recuerda dónde encontrar dirección, paz y propósito: permanece cerca de Dios.</p>
+      <div class="actions">
+        <a class="btn primary" href="#versiculos">Conectar con la Palabra</a>
+        <a class="btn" href="#oracion">Escribir una oración</a>
+      </div>
+    </div>
+    <img class="hero-img" src="assets/imagen-dios.jpg" alt="Imagen con el mensaje: La única conexión que necesitas es Dios">
+  </div>
+
+  <section id="versiculos">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Pausa y reflexión</div>
+        <h2>Alimenta tu conexión con Dios</h2>
+        <p class="muted">Lee el pasaje en tu Biblia, medita en su mensaje y piensa cómo puedes llevarlo a tu día.</p>
+      </div>
+      <article class="verse-card">
+        <div class="verse-top"><span>Reflexión del día</span><span id="counter">1 / 5</span></div>
+        <div class="verse-ref" id="reference">Juan 15:4-5</div>
+        <blockquote id="verse">Permanece unido a Cristo: así como una rama necesita estar unida a la vid, nuestra vida necesita permanecer en Él para dar fruto.</blockquote>
+        <div class="reflection" id="reflection">No se trata solamente de buscar a Dios cuando tenemos problemas, sino de cultivar una relación constante con Él cada día.</div>
+        <div class="verse-controls">
+          <span class="dots">Cinco pasajes para meditar</span>
+          <button class="btn primary" id="nextVerse" type="button">Siguiente versículo ↻</button>
+        </div>
+      </article>
+      <div class="grid" style="margin-top:18px">
+        <article class="mini"><h3>Jeremías 29:13</h3><p>Buscar a Dios con todo el corazón nos invita a acercarnos a Él con sinceridad y entrega.</p></article>
+        <article class="mini"><h3>Santiago 4:8</h3><p>Cuando damos un paso hacia Dios, respondemos a su invitación de acercarnos a Él.</p></article>
+        <article class="mini"><h3>Salmos 73:28</h3><p>Estar cerca de Dios es nuestro bien; en Él encontramos refugio y esperanza.</p></article>
+        <article class="mini"><h3>Filipenses 4:6-7</h3><p>Podemos presentar nuestras preocupaciones a Dios en oración y confiar en su paz.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="oracion">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Un momento para alguien más</div>
+        <h2>Mi compromiso de conexión</h2>
+        <p class="muted">Escribe el nombre de una persona y una oración o paso práctico para fortalecer su relación con Dios.</p>
+      </div>
+      <div class="form-layout">
+        <div>
+          <h3>Ora con intención</h3>
+          <p class="muted">Tómate un momento para pensar en esa persona. Puedes escribir una petición, una palabra de ánimo o un compromiso para acompañarla en oración.</p>
+          <p class="small">“La oración es una manera de poner en manos de Dios aquello que llevamos en el corazón”.</p>
+        </div>
+        <div class="form-card">
+          <form id="prayerForm">
+            <label for="person">Nombre de la persona</label>
+            <input id="person" name="person" maxlength="70" placeholder="¿Por quién quieres orar?" required>
+            <label for="prayer">Tu oración o compromiso</label>
+            <textarea id="prayer" name="prayer" maxlength="1200" placeholder="Señor, hoy te pido por..." required></textarea>
+            <p class="small">Este espacio es privado: el texto se muestra en esta página y no se envía a un servidor.</p>
+            <button class="btn primary" type="submit">Crear mi oración</button>
+          </form>
+          <div class="result" id="prayerResult" aria-live="polite">
+            <h3 id="resultTitle">Oración</h3>
+            <p id="resultText"></p>
+            <div class="actions">
+              <button class="btn" id="copyPrayer" type="button">Copiar oración</button>
+              <button class="btn" id="sharePrayer" type="button">Compartir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="qr-section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Comparte la dinámica</div>
+        <h2>Invita a alguien a conectar</h2>
+        <p class="muted">Cuando publiques esta página en internet, genera aquí un código QR para que los demás puedan abrirla desde su celular.</p>
+      </div>
+      <div class="qr-box">
+        <div class="qr-placeholder" id="qrPlaceholder">El código QR aparecerá aquí cuando la página esté publicada.</div>
+        <img id="qr" alt="Código QR para abrir esta página">
+        <div class="qr-tools">
+          <p><strong>Dirección de esta página</strong></p>
+          <input id="pageUrl" type="url" placeholder="https://tu-sitio.com" aria-label="Dirección pública de la página">
+          <div class="actions">
+            <button class="btn primary" id="makeQr" type="button">Generar código QR</button>
+            <button class="btn" id="copyUrl" type="button">Copiar enlace</button>
+          </div>
+          <p class="small" id="qrMessage">Si ya estás viendo la versión publicada, puedes usar la dirección actual.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Que cada día encuentres tiempo para permanecer cerca de Dios. · Dinámica cristiana</div>
+</footer>
+
+<script>
+  const verses = [
+    {ref:"Juan 15:4-5", text:"Permanece unido a Cristo: así como una rama necesita estar unida a la vid, nuestra vida necesita permanecer en Él para dar fruto.", reflection:"No se trata solamente de buscar a Dios cuando tenemos problemas, sino de cultivar una relación constante con Él cada día."},
+    {ref:"Jeremías 29:13", text:"Dios invita a quienes lo buscan de todo corazón a acercarse a Él con sinceridad.", reflection:"La conexión con Dios crece cuando lo buscamos con intención, no por costumbre ni solamente en los momentos difíciles."},
+    {ref:"Santiago 4:8", text:"Acércate a Dios, porque Él también te llama a acercarte a su presencia.", reflection:"Un pequeño paso puede ser comenzar el día con una oración, leer un pasaje o apartar unos minutos para escucharlo."},
+    {ref:"Salmos 73:28", text:"Estar cerca de Dios es nuestro bien; en Él podemos encontrar refugio.", reflection:"Aunque las circunstancias cambien, podemos elegir hacer de Dios nuestro lugar de confianza y esperanza."},
+    {ref:"Filipenses 4:6-7", text:"Presenta tus peticiones a Dios en oración y permite que su paz cuide tu corazón y tus pensamientos.", reflection:"La oración no siempre cambia de inmediato lo que sucede, pero nos recuerda que no tenemos que cargar solos nuestras preocupaciones."}
+  ];
+  let current = 0;
+  const $ = id => document.getElementById(id);
+  $("nextVerse").addEventListener("click", () => {
+    current = (current + 1) % verses.length;
+    $("reference").textContent = verses[current].ref;
+    $("verse").textContent = verses[current].text;
+    $("reflection").textContent = verses[current].reflection;
+    $("counter").textContent = `${current + 1} / ${verses.length}`;
+  });
+
+  let prayerToShare = "";
+  $("prayerForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const person = $("person").value.trim();
+    const prayer = $("prayer").value.trim();
+    if (!person || !prayer) return;
+    prayerToShare = `Oración por ${person}:\n\n${prayer}`;
+    $("resultTitle").textContent = `Oración por ${person}`;
+    $("resultText").textContent = prayer;
+    $("prayerResult").classList.add("show");
+  });
+  $("copyPrayer").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(prayerToShare); $("copyPrayer").textContent = "¡Copiada!"; }
+    catch { $("resultText").textContent = prayerToShare + "\n\n(No se pudo copiar automáticamente; puedes seleccionar el texto.)"; }
+  });
+  $("sharePrayer").addEventListener("click", () => {
+    const url = "https://wa.me/?text=" + encodeURIComponent(prayerToShare);
+    window.open(url, "_blank", "noopener");
+  });
+
+  const currentUrl = window.location.href.split("#")[0];
+  if (location.protocol.startsWith("http") && !location.hostname.includes("localhost")) $("pageUrl").value = currentUrl;
+  $("makeQr").addEventListener("click", () => {
+    const url = $("pageUrl").value.trim();
+    if (!/^https?:\/\//i.test(url)) { $("qrMessage").textContent = "Escribe primero un enlace público que comience con https://"; return; }
+    $("qr").src = "https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=" + encodeURIComponent(url);
+    $("qr").style.display = "block";
+    $("qrPlaceholder").style.display = "none";
+    $("qrMessage").textContent = "Escanea el código con la cámara de tu celular para comprobar que abre la página.";
+  });
+  $("copyUrl").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText($("pageUrl").value); $("qrMessage").textContent = "Enlace copiado."; }
+    catch { $("qrMessage").textContent = "Selecciona y copia el enlace manualmente."; }
+  });
+</script>
+</body>
+</html>
